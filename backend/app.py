@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request
 from dotenv import load_dotenv
 import os
-from backend.calculation import calculate_total
-from backend.gpt_suggestions import get_suggestions
+from calculation import calculate_total
+from gpt_suggestions import get_suggestions
 
 
 load_dotenv()
