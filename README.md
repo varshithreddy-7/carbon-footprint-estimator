@@ -8,7 +8,7 @@ Built with **Flask**, **Chart.js**, and **OpenRouter GPT API**, the app also inc
 
 ## 🚀 Live Demo
 
-👉 [Click to Try It Live](https://carbon-footprint-estimator-5155.onrender.com)
+👉 [Click to Try It Live](https://carbon-footprint-estimator-2sju.onrender.com)
 
 
 ---
