@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Carbon Footprint Estimator</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>🌍 Carbon Footprint Estimator</h1>
+
+  <!-- 🌗 Theme Toggle -->
+  <button onclick="toggleMode()" id="modeToggle">Switch to Dark Mode</button>
+
+  <!-- 🚀 Input Form -->
+  <form method="post" action="/calculate" class="input-form">
+    <label>Travel (km/week):</label>
+    <input type="number" name="travel" required>
+
+    <label>Transport Mode:</label>
+    <select name="transport">
+      <option value="car">Car</option>
+      <option value="bus">Bus</option>
+      <option value="train">Train</option>
+      <option value="bike">Bike</option>
+      <option value="walk">Walk</option>
+    </select>
+
+    <label>Diet Type:</label>
+    <select name="diet">
+      <option value="meat_heavy">Meat-heavy</option>
+      <option value="average">Average</option>
+      <option value="vegetarian">Vegetarian</option>
+      <option value="vegan">Vegan</option>
+    </select>
+
+    <label>Electricity (kWh/month):</label>
+    <input type="number" name="electricity" required>
+
+    <button type="submit">Estimate</button>
+  </form>
+
+  <!-- 🧾 Results & Chart -->
+  {% if result %}
+    <div class="result-container">
+      <div class="result-box">
+        <h2>Your Estimated Carbon Footprint: {{ result }} kg CO₂/year</h2>
+        <p>🚗 <strong>Travel:</strong> {{ travel }} kg</p>
+        <p>🍽️ <strong>Food:</strong> {{ food }} kg</p>
+        <p>⚡ <strong>Electricity:</strong> {{ electricity }} kg</p>
+      </div>
+
+      <canvas id="footprintChart" width="400" height="200"></canvas>
+
+      <script>
+        const ctx = document.getElementById('footprintChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Travel', 'Food', 'Electricity'],
+            datasets: [{
+              label: 'Carbon Footprint (kg/year)',
+              data: [{{ travel }}, {{ food }}, {{ electricity }}],
+              backgroundColor: ['#4CAF50', '#FF9800', '#2196F3']
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { display: false },
+              title: {
+                display: true,
+                text: 'Your Carbon Footprint Breakdown'
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      </script>
+
+      {% if suggestion %}
+      <div class="suggestion-box">
+        <h3>🌱 AI Suggestions to Reduce Your Footprint</h3>
+        <ol>
+          {% for tip in suggestion %}
+            <li>{{ tip }}</li>
+          {% endfor %}
+        </ol>
+      </div>
+      {% endif %}
+
+    </div> <!-- End of result-container -->
+  {% endif %}
+
+  <!-- 🌗 Light/Dark Theme Script -->
+  <script>
+    function toggleMode() {
+      const body = document.body;
+      const button = document.getElementById("modeToggle");
+      body.classList.toggle("dark-mode");
+
+      if (body.classList.contains("dark-mode")) {
+        button.textContent = "Switch to Light Mode";
+        localStorage.setItem("theme", "dark");
+      } else {
+        button.textContent = "Switch to Dark Mode";
+        localStorage.setItem("theme", "light");
+      }
+    }
+
+    // Load saved theme on page load
+    window.onload = () => {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "dark") {
+        document.body.classList.add("dark-mode");
+        document.getElementById("modeToggle").textContent = "Switch to Light Mode";
+      }
+    };
+  </script>
+</body>
+</html>

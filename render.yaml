@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: carbon-footprint-estimator
+    env: python
+    plan: free
+    buildCommand: ""
+    startCommand: python backend/app.py
+    envVars:
+      - key: OPENROUTER_API_KEY
+        sync: false
