@@ -22,7 +22,7 @@ def calculate():
     total, travel_kg, food_kg, electricity_kg = calculate_total(travel, transport, diet, electricity)
     suggestions = get_suggestions(travel, transport, diet, electricity, total)
 
-    return render_template('index.html',
+        return render_template('index.html'), # ← Contains invisible space
         result=total,
         travel=travel_kg,
         food=food_kg,
