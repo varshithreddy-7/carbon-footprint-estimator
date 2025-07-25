@@ -1,7 +1,6 @@
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
-
 load_dotenv()
 
 client = OpenAI(
@@ -30,5 +29,8 @@ Present tips in numbered bullet points.
         tips = [tip.strip("•1234567890.- ") for tip in content.split("\n") if tip.strip()]
         return tips
     except Exception as e:
-        print("Error fetching suggestions:", e)
+        import traceback
+        print("❌ Error while fetching suggestions from OpenRouter API:")
+        print("Exception:", e)
+        traceback.print_exc()
         return ["⚠️ Unable to fetch AI suggestions at the moment. Please try again later."]
